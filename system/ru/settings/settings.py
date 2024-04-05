@@ -4,16 +4,9 @@ import aiofiles
 import json
 
 async def settings_view(page: ft.Page):
-    async def toggle_dark_mode(event):
-        if page.theme_mode == "dark":
-            page.theme_mode = "light"
-            await page.update_async()
-        else: 
-            page.theme_mode = "dark"
-            await page.update_async()
 
     async def check_update(event):
-        return await page.go_async('/settings/update')
+        page.go('/settings/update')
     
     class EditResizeScale:
         def __init__(self) -> None:
@@ -45,15 +38,15 @@ async def settings_view(page: ft.Page):
                             await file.write(json.dumps(data, indent=4))
 
                         content.scale = await self.resize_scale()
-                        await page.update_async()
-                        await page.close_dialog_async()
+                        page.update()
+                        page.close_dialog()
                     else:
-                        await page.close_dialog_async()
+                        page.close_dialog()
 
                 async def dialog_dismissed(event):
                     content.scale = await self.resize_scale()
-                    await page.update_async()
-                    await page.close_dialog_async()
+                    page.update()
+                    page.close_dialog()
                     
                 cupertino_alert_dialog = ft.CupertinoAlertDialog(
                     content=ft.Text("Вы хотите изменения маштаба?"),
@@ -72,13 +65,13 @@ async def settings_view(page: ft.Page):
                     )
                 page.dialog = cupertino_alert_dialog
                 cupertino_alert_dialog.open = True
-                await page.update_async()
+                page.update()
             
             if self.scale_textfield.value is not None and \
                 isinstance(await convert_to_float_or_str(self.scale_textfield.value), (int, float)):
                     
                 content.scale = await convert_to_float_or_str(self.scale_textfield.value.strip().replace(" ", ""))
-                await page.update_async()
+                page.update()
                 await asyncio.sleep(2)
                 await scale_change_confirmations()
             else:
@@ -86,7 +79,6 @@ async def settings_view(page: ft.Page):
 
         async def scale_button(self):
             button = ft.ElevatedButton(
-                icon=ft.icons.UPDATE,
                 text="Изменить маштаб",
                 on_click=self.__scale_update,
             )
@@ -109,61 +101,40 @@ async def settings_view(page: ft.Page):
             if self.language_selects.value == None:
                 self.error_language.color = 'red'
                 self.error_language.value = "Нельзя выбрать пустое значение" 
-                await self.error_language.update_async()
+                self.error_language.update()
                 await asyncio.sleep(5)
                 self.error_language.value = ''
-                await self.error_language.update_async()
+                self.error_language.update()
             else:
-                async with aiofiles.open('config/settings_secret.json', mode='r') as file:
+                async with aiofiles.open('config/user_settings.json', mode='r') as file:
                     data = json.loads(await file.read())
                 data['system_language'] = self.language_selects.value
-                async with aiofiles.open('config/settings_secret.json', mode='w') as file:
+                async with aiofiles.open('config/user_settings.json', mode='w') as file:
                     await file.write(json.dumps(data, indent=4))
-                # page.update()
+                page.update()
                 self.error_language.color = 'green'
                 self.error_language.value = 'Успешно обновлено'
-                await self.error_language.update_async()
+                self.error_language.update()
                 await asyncio.sleep(5)
                 self.error_language.value = ''
-                await self.error_language.update_async()
+                self.error_language.update()
 
         async def language_submit(self):
-            return ft.ElevatedButton(text="Выбрать", icon=ft.icons.LANGUAGE, on_click=self.language_select)
+            return ft.ElevatedButton(text="Выбрать", on_click=self.language_select)
     
-
     editresizescale = EditResizeScale()
     language_selection = Language_selection()
 
     content = ft.Column(
         [
-            ft.ResponsiveRow(
+            ft.Row(
             [
                 ft.Text("Мои Настройки", size=30), 
-                ft.IconButton(icon=ft.icons.SETTINGS_ROUNDED, icon_size=30),
+                ft.IconButton(icon=ft.icons.SETTINGS_ROUNDED, icon_size=30, disabled=True),
             ], 
-            alignment=ft.alignment.center,
+            alignment=ft.MainAxisAlignment.CENTER,
             ),
-
-            ft.ResponsiveRow(
-                [
-                    ft.CupertinoSwitch(
-                        label="Светлый/темный режим",
-                        value=True,
-                        on_change=toggle_dark_mode,
-                        thumb_color=ft.colors.GREEN,
-                        active_color=ft.colors.BLACK,
-                        track_color=ft.colors.WHITE,
-                    ),
-        
-
-                ],
-            ),
-
-            ft.ResponsiveRow(
-                [
-                    ft.TextButton("Проверить наличие обновлений", icon=ft.icons.UPDATE, on_click=check_update, icon_color="green")
-                ]
-            ),
+            ft.Row(width=15),
 
             # Изменить маштаб приложения 
             ft.ResponsiveRow(
@@ -172,6 +143,8 @@ async def settings_view(page: ft.Page):
                     await editresizescale.scale_button()
                 ]
             ),
+
+            ft.Row(width=5),
             
             # Выбор языка приложения из выподающей меню
             ft.ResponsiveRow(
@@ -179,6 +152,24 @@ async def settings_view(page: ft.Page):
                     language_selection.language_selects,
                     language_selection.error_language,
                     await language_selection.language_submit(),
+                ]
+            ),
+
+            ft.Row(width=5),
+
+            # Синхронизация
+            ft.ResponsiveRow(
+                [
+                    ft.ElevatedButton("Синхронизация", on_click=check_update)
+                ]
+            ),
+            
+            ft.Row(width=5),
+
+            # Проверка обновления приложения
+            ft.ResponsiveRow(
+                [
+                    ft.ElevatedButton("Проверить наличие обновлений", on_click=check_update, icon_color="green")
                 ]
             ),
 

@@ -1,4 +1,6 @@
 import flet as ft
+from config.database.db import Password_Database
+from datetime import datetime
 
 class AddPass():
     async def init(self, page: ft.Page, column: ft.Column) -> None:
@@ -27,7 +29,7 @@ class AddPass():
             label="Электронная почта",
             col={"md": 4},
         )
-        self.note = ft.TextField(
+        self.notes = ft.TextField(
             label="Примечания",
             col={"md": 4},
         )
@@ -85,7 +87,7 @@ class AddPass():
         return self.email
     
     async def add_note(self) -> ft.TextField:
-        return self.note
+        return self.notes
     
     async def add_key_words(self) -> ft.TextField:
         return self.key_words
@@ -103,7 +105,7 @@ class AddPass():
                     col={"md": 4},
                     )
                 )
-                await self.column.update_async()
+                self.column.update()
                 
             else:
                 self.content.insert(-2, ft.ResponsiveRow(controls=[
@@ -114,14 +116,8 @@ class AddPass():
                     ],
                     alignment=ft.MainAxisAlignment.CENTER
                     ))
-                await self.column.update_async()
-            await self.column.update_async()
-
-    async def save_click(self, event):
-        if all([self.title.value, self.pas.value]):
-            print('есть значения')
-        else:
-            print('нету значения')
+                self.column.update()
+            self.column.update()
 
     async def add(self):
         return ft.FilledButton(
@@ -131,9 +127,20 @@ class AddPass():
             col={"md": 4},
         )
     async def add_save(self):
+        async def save_click(event):
+            if all([self.title.value, self.pas.value]):
+                db = Password_Database()
+                await db.add_record(title=self.title.value.strip(), password=self.pas.value.strip(),
+                    login=self.login.value.strip(), url_site=self.url_site.value.strip(),
+                    email=self.email.value.strip(),
+                    notes=self.notes.value.strip(), key_words=self.key_words.value.strip(), 
+                    creation_date=datetime.now(), change_date=datetime.now())
+            else:
+                print('нету значения')
+
         return ft.FilledButton(
             text='Сохранить',
-            on_click=self.save_click,
+            on_click=save_click,
             col={"md": 4},
         )
     
