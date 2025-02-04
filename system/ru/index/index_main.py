@@ -1,6 +1,7 @@
 import flet as ft
 from config.database.db import Password_Database
 
+
 async def index(page: ft.Page):
     class Sort:
         def __init__(self, table: ft.DataTable) -> None:
@@ -15,27 +16,29 @@ async def index(page: ft.Page):
                     ft.dropdown.Option("Последнее изменения"),
                     ft.dropdown.Option("Старые изменения"),
                     ft.dropdown.Option("Полностью заполненые"),
-                ], 
+                ],
                 autofocus=True,
                 col={"md": 4, "sm": 4}
-                )
+            )
             self.table = table
-            
+
             self.search = ft.IconButton(
-                icon=ft.icons.SEARCH, 
+                icon=ft.icons.SEARCH,
                 col={"md": 4, "sm": 4},
                 on_click=self.search_click
-                )
-            
+            )
+
             self.search_text = ft.TextField(
                 visible=False
-                )
+            )
+
         async def dropdown_click(self, event):
-            print(event.control.value)
+            pass
+            # print(event.control.value)
 
         async def bottom_dropdown(self) -> ft.Dropdown:
             return self.dropdown
-        
+
         async def search_click(self, event) -> ft.IconButton:
             if self.search_text.visible == False:
                 self.search_text.visible = True
@@ -67,18 +70,21 @@ async def index(page: ft.Page):
                 ],
             )
             self.all_battom = ft.Row(controls=[
-                ft.IconButton(icon=ft.icons.ARROW_CIRCLE_LEFT, on_click=self.next_row),
-                ft.IconButton(icon=ft.icons.ARROW_CIRCLE_RIGHT, on_click=self.prev_row),
-                ft.IconButton(icon=ft.icons.UPDATE, on_click=self.update_bottom),
-                ], alignment=ft.MainAxisAlignment.END)
-            
+                ft.IconButton(icon=ft.icons.ARROW_CIRCLE_LEFT,
+                              on_click=self.next_row),
+                ft.IconButton(icon=ft.icons.ARROW_CIRCLE_RIGHT,
+                              on_click=self.prev_row),
+                ft.IconButton(icon=ft.icons.UPDATE,
+                              on_click=self.update_bottom),
+            ], alignment=ft.MainAxisAlignment.END)
+
             self.current_row = 0
             self.rows = []
-        
+
         async def update_bottom(self, event):
             self.table.clean()
             self.rows.clear()
-            
+
             await self.fill_data()
             self.table.update()
 
@@ -90,7 +96,7 @@ async def index(page: ft.Page):
 
         async def next_row(self, e):
             if self.current_row - 5 >= 0:
-                # есть данные для предыдущей страницы  
+                # есть данные для предыдущей страницы
                 self.current_row -= 5
                 await self.update_table()
             self.table.update()
@@ -110,9 +116,9 @@ async def index(page: ft.Page):
         async def update_table(self):
             # берем 2 записи из списка по текущему индексу
             rows_to_show = self.rows[self.current_row:self.current_row + 5]
-            # устанавливаем их в таблицу 
+            # устанавливаем их в таблицу
             self.table.rows = rows_to_show
-        
+
         async def fill_data(self):
             database = Password_Database()
             colonka = await database.read_records('id', 'title', 'creation_date')
@@ -125,15 +131,16 @@ async def index(page: ft.Page):
                 ], on_select_changed=self.click_detal_page)
                 self.rows.append(row)
             await self.update_table()
-    
+
     class TableListView:
         def __init__(self, table: DataTable) -> None:
             self.table = table
             self.list = ft.ListView(adaptive=True, visible=False)
             self.new_table = []
             self.new_rows = []
-            self.rows = ft.DataRow()
-            self.back = ft.ElevatedButton(text="Назад", icon=ft.icons.ARROW_LEFT_OUTLINED, on_click=self.back_click)
+            self.rows = ft.DataRow(cells=[])
+            self.back = ft.ElevatedButton(
+                text="Назад", icon=ft.icons.ARROW_LEFT_OUTLINED, on_click=self.back_click)
 
         async def create_row(self, id):
             self.new_table.clear()
@@ -146,12 +153,13 @@ async def index(page: ft.Page):
             for key, value in get_all_data_by_id.items():
                 self.new_table.append(
                     ft.DataTable(
-                    vertical_lines=ft.border.BorderSide(1, "blue"),
-                    horizontal_lines=ft.border.BorderSide(1, "green"),
-                    heading_row_color=ft.colors.BLACK12,
-                    columns=[ft.DataColumn(ft.Text(key))]))
-                self.new_rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(value, selectable=True))]))
-            
+                        vertical_lines=ft.border.BorderSide(1, "blue"),
+                        horizontal_lines=ft.border.BorderSide(1, "green"),
+                        heading_row_color=ft.colors.BLACK12,
+                        columns=[ft.DataColumn(ft.Text(key))]))
+                self.new_rows.append(ft.DataRow(
+                    cells=[ft.DataCell(ft.Text(value, selectable=True))]))
+
             for index, v in enumerate(self.new_table):
                 self.new_table[index].rows.append(self.new_rows[index])
 
@@ -161,13 +169,13 @@ async def index(page: ft.Page):
         async def back_click(self, event):
             self.list.visible = False
             self.list.update()
-            
+
             self.table.table.visible = True
             self.table.table.update()
-            
+
             self.table.all_battom.visible = True
             self.table.all_battom.update()
-    
+
     datatable = DataTable()
     await datatable.fill_data()
 
@@ -178,16 +186,16 @@ async def index(page: ft.Page):
         ft.Row(controls=[
             await sort.bottom_dropdown(),
             await sort.bottom_search()
-        ], 
-        run_spacing=0,
+        ],
+            run_spacing=0,
 
-        alignment=ft.MainAxisAlignment.CENTER,
-        
+            alignment=ft.MainAxisAlignment.CENTER,
+
         ),
         ft.Row(controls=[
             sort.search_text
         ],
-        alignment=ft.MainAxisAlignment.CENTER
+            alignment=ft.MainAxisAlignment.CENTER
         ),
 
         ft.ResponsiveRow(controls=[
@@ -200,7 +208,7 @@ async def index(page: ft.Page):
 
         datatable.all_battom,
 
-        
+
 
     ])
 

@@ -3,104 +3,29 @@ import asyncio
 import aiofiles
 import json
 
+
 async def settings_view(page: ft.Page):
 
     async def check_update(event):
-        page.go('/settings/update')
-    
-    class EditResizeScale:
-        def __init__(self) -> None:
-            self.scale_textfield = ft.TextField(label="Изменить маштаб", hint_text="Пример: 1 или 0.1")
-            self.scale_error = None
+        pass
+        # page.go('/settings/update')
 
-        async def resize_scale(self):
-            async with aiofiles.open('config/user_settings.json', mode='r') as file:
-                data = json.loads(await file.read())
-            return data['scale']
-    
-        async def __scale_update(self, event):
-            async def convert_to_float_or_str(value):
-                try:
-                    result = float(value)
-                    return result
-                except ValueError:
-                    return value
-            
-            async def scale_change_confirmations():
-                async def change_confirmation(event):
-                    if self.scale_textfield.value is not None and \
-                        isinstance(await convert_to_float_or_str(self.scale_textfield.value), (int, float)):
-
-                        async with aiofiles.open('config/user_settings.json', mode='r') as file:
-                            data = json.loads(await file.read())
-                        data['scale'] = await convert_to_float_or_str(self.scale_textfield.value.strip().replace(" ", ""))
-                        async with aiofiles.open('config/user_settings.json', mode='w') as file:
-                            await file.write(json.dumps(data, indent=4))
-
-                        content.scale = await self.resize_scale()
-                        page.update()
-                        page.close_dialog()
-                    else:
-                        page.close_dialog()
-
-                async def dialog_dismissed(event):
-                    content.scale = await self.resize_scale()
-                    page.update()
-                    page.close_dialog()
-                    
-                cupertino_alert_dialog = ft.CupertinoAlertDialog(
-                    content=ft.Text("Вы хотите изменения маштаба?"),
-                    actions=[
-                        ft.CupertinoDialogAction(
-                            text = 'Да',
-                            is_destructive_action=True,
-                            on_click=change_confirmation,
-                            ),
-
-                        ft.CupertinoDialogAction(
-                            text = "Отмена",
-                            on_click=dialog_dismissed,
-                            ),
-                        ],
-                    )
-                page.dialog = cupertino_alert_dialog
-                cupertino_alert_dialog.open = True
-                page.update()
-            
-            if self.scale_textfield.value is not None and \
-                isinstance(await convert_to_float_or_str(self.scale_textfield.value), (int, float)):
-                    
-                content.scale = await convert_to_float_or_str(self.scale_textfield.value.strip().replace(" ", ""))
-                page.update()
-                await asyncio.sleep(2)
-                await scale_change_confirmations()
-            else:
-                print("у вас не int или float")
-
-        async def scale_button(self):
-            button = ft.ElevatedButton(
-                text="Изменить маштаб",
-                on_click=self.__scale_update,
-            )
-
-            return button
-            
     # выбор языка приложения
     class Language_selection:
         def __init__(self) -> None:
             self.error_language = ft.Text(color='red')
             self.language_selects = ft.Dropdown(
-                width = 280,
-                label = 'Выберите язык приложения',
-                options = [
-                    ft.dropdown.Option("Russian"),      
+                width=280,
+                label='Выберите язык приложения',
+                options=[
+                    ft.dropdown.Option("Russian"),
                 ]
             )
 
         async def language_select(self, event):
             if self.language_selects.value == None:
                 self.error_language.color = 'red'
-                self.error_language.value = "Нельзя выбрать пустое значение" 
+                self.error_language.value = "Нельзя выбрать пустое значение"
                 self.error_language.update()
                 await asyncio.sleep(5)
                 self.error_language.value = ''
@@ -121,31 +46,23 @@ async def settings_view(page: ft.Page):
 
         async def language_submit(self):
             return ft.ElevatedButton(text="Выбрать", on_click=self.language_select)
-    
-    editresizescale = EditResizeScale()
+
     language_selection = Language_selection()
 
     content = ft.Column(
         [
             ft.Row(
-            [
-                ft.Text("Мои Настройки", size=30), 
-                ft.IconButton(icon=ft.icons.SETTINGS_ROUNDED, icon_size=30, disabled=True),
-            ], 
-            alignment=ft.MainAxisAlignment.CENTER,
+                [
+                    ft.Text("Настройки", size=30),
+                    ft.IconButton(icon=ft.icons.SETTINGS_ROUNDED,
+                                  icon_size=30, disabled=True),
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
             ),
             ft.Row(width=15),
 
-            # Изменить маштаб приложения 
-            ft.ResponsiveRow(
-                [
-                    editresizescale.scale_textfield,
-                    await editresizescale.scale_button()
-                ]
-            ),
-
             ft.Row(width=5),
-            
+
             # Выбор языка приложения из выподающей меню
             ft.ResponsiveRow(
                 [
@@ -163,19 +80,19 @@ async def settings_view(page: ft.Page):
                     ft.ElevatedButton("Синхронизация", on_click=check_update)
                 ]
             ),
-            
+
             ft.Row(width=5),
 
             # Проверка обновления приложения
             ft.ResponsiveRow(
                 [
-                    ft.ElevatedButton("Проверить наличие обновлений", on_click=check_update, icon_color="green")
+                    ft.ElevatedButton(
+                        "Проверить наличие обновлений", on_click=check_update, icon_color="green")
                 ]
             ),
 
         ]
 
     )
-    
-    
+
     return content
