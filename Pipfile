@@ -7,7 +7,7 @@ name = "pypi"
 aiofiles = "*"
 aiosqlite = "*"
 pyperclip = "*"
-flet = {extras = ["all"], version = "*"}
+flet = "*"
 
 [dev-packages]
 

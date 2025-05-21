@@ -54,7 +54,7 @@ async def settings_view(page: ft.Page):
             ft.Row(
                 [
                     ft.Text("Настройки", size=30),
-                    ft.IconButton(icon=ft.icons.SETTINGS_ROUNDED,
+                    ft.IconButton(icon=ft.Icons.SETTINGS_ROUNDED,
                                   icon_size=30, disabled=True),
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,

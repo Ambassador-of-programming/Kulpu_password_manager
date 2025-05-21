@@ -122,7 +122,7 @@ class AddPass():
     async def add(self):
         return ft.FilledButton(
             text='Добавить параметр',
-            icon=ft.icons.ADD,
+            icon=ft.Icons.ADD,
             on_click=self.add_click,
             col={"md": 4},
         )

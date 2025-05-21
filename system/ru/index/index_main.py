@@ -23,7 +23,7 @@ async def index(page: ft.Page):
             self.table = table
 
             self.search = ft.IconButton(
-                icon=ft.icons.SEARCH,
+                icon=ft.Icons.SEARCH,
                 col={"md": 4, "sm": 4},
                 on_click=self.search_click
             )
@@ -45,9 +45,9 @@ async def index(page: ft.Page):
                 self.search_text.label = 'Введите поиск'
                 self.search_text.border_radius = 5
                 self.search_text.max_length = 300
-                self.search_text.prefix_icon = ft.icons.SEARCH_OUTLINED
+                self.search_text.prefix_icon = ft.Icons.SEARCH_OUTLINED
                 self.search_text.border_color = 'green'
-                self.search_text.bgcolor = ft.colors.DEEP_PURPLE
+                self.search_text.bgcolor = ft.Colors.DEEP_PURPLE
 
                 self.search_text.update()
             else:
@@ -62,7 +62,7 @@ async def index(page: ft.Page):
             self.table = ft.DataTable(
                 vertical_lines=ft.border.BorderSide(1, "blue"),
                 horizontal_lines=ft.border.BorderSide(1, "green"),
-                heading_row_color=ft.colors.BLACK12,
+                heading_row_color=ft.Colors.BLACK12,
                 columns=[
                     ft.DataColumn(ft.Text("№")),
                     ft.DataColumn(ft.Text("Заголовок")),
@@ -70,11 +70,11 @@ async def index(page: ft.Page):
                 ],
             )
             self.all_battom = ft.Row(controls=[
-                ft.IconButton(icon=ft.icons.ARROW_CIRCLE_LEFT,
+                ft.IconButton(icon=ft.Icons.ARROW_CIRCLE_LEFT,
                               on_click=self.next_row),
-                ft.IconButton(icon=ft.icons.ARROW_CIRCLE_RIGHT,
+                ft.IconButton(icon=ft.Icons.ARROW_CIRCLE_RIGHT,
                               on_click=self.prev_row),
-                ft.IconButton(icon=ft.icons.UPDATE,
+                ft.IconButton(icon=ft.Icons.UPDATE,
                               on_click=self.update_bottom),
             ], alignment=ft.MainAxisAlignment.END)
 
@@ -140,7 +140,7 @@ async def index(page: ft.Page):
             self.new_rows = []
             self.rows = ft.DataRow(cells=[])
             self.back = ft.ElevatedButton(
-                text="Назад", icon=ft.icons.ARROW_LEFT_OUTLINED, on_click=self.back_click)
+                text="Назад", icon=ft.Icons.ARROW_LEFT_OUTLINED, on_click=self.back_click)
 
         async def create_row(self, id):
             self.new_table.clear()
@@ -155,7 +155,7 @@ async def index(page: ft.Page):
                     ft.DataTable(
                         vertical_lines=ft.border.BorderSide(1, "blue"),
                         horizontal_lines=ft.border.BorderSide(1, "green"),
-                        heading_row_color=ft.colors.BLACK12,
+                        heading_row_color=ft.Colors.BLACK12,
                         columns=[ft.DataColumn(ft.Text(key))]))
                 self.new_rows.append(ft.DataRow(
                     cells=[ft.DataCell(ft.Text(value, selectable=True))]))

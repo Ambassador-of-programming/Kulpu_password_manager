@@ -7,12 +7,12 @@ async def generator_pass(page: ft.Page):
     class GenPass:
         def __init__(self) -> None:
             self.password_length = ft.CupertinoTextField(
-                bgcolor=ft.colors.BLUE_100,
-                color=ft.colors.BLACK,
+                bgcolor=ft.Colors.BLUE_100,
+                color=ft.Colors.BLACK,
                 # shadow=ft.BoxShadow(color=ft.colors.RED_400, blur_radius=5, spread_radius=5),
                 # on_change=lambda e: print("Введите длина па", e.control.value),
                 placeholder_text="Введите длину пароля",
-                suffix=ft.Icon(ft.icons.EDIT),
+                suffix=ft.Icon(ft.Icons.EDIT),
                 suffix_visibility_mode=ft.VisibilityMode.EDITING,
                 input_filter=ft.NumbersOnlyInputFilter(),
                 max_length=3
@@ -21,8 +21,8 @@ async def generator_pass(page: ft.Page):
             self.symbols = ft.Checkbox(adaptive=True, label="Использовать спец. символы", value=True)
             self.uppercase = ft.Checkbox(adaptive=True, label="Использовать большие буквы", value=True)
             self.buttom = ft.ElevatedButton(text='Сгенерировать', on_click=self.go_pass)
-            self.copy_bottom = ft.IconButton(icon=ft.icons.COPY)
-            self.error_text = ft.Text(color=ft.colors.RED_400, text_align=ft.TextAlign.CENTER, visible=False)
+            self.copy_bottom = ft.IconButton(icon=ft.Icons.COPY)
+            self.error_text = ft.Text(color=ft.Colors.RED_400, text_align=ft.TextAlign.CENTER, visible=False)
             self.get_created_password = ft.Text(text_align=ft.TextAlign.CENTER, 
                 selectable=True, visible=False, col=2)
 
@@ -75,7 +75,7 @@ async def generator_pass(page: ft.Page):
         ]),
         ft.ResponsiveRow([
             genpass.get_created_password,
-            ft.IconButton(icon=ft.icons.COPY, col=2),
+            ft.IconButton(icon=ft.Icons.COPY, col=2),
             genpass.error_text
         ], alignment=ft.MainAxisAlignment.CENTER),
 

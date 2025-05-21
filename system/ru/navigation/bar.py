@@ -11,15 +11,15 @@ async def bottomappbar(page: ft.Page) -> ft.AppBar:
         return page.go('/settings')
 
     bottomappbar = ft.BottomAppBar(
-        bgcolor=ft.colors.TERTIARY_CONTAINER,
+        bgcolor=ft.Colors.TERTIARY_CONTAINER,
         content=ft.Row(
             controls=[
                 ft.Container(expand=True),
-                ft.IconButton(icon=ft.icons.HOME, icon_color=ft.colors.BLUE_200, on_click=go_home),
+                ft.IconButton(icon=ft.Icons.HOME, icon_color=ft.Colors.BLUE_200, on_click=go_home),
                 ft.Container(expand=True),
-                ft.IconButton(icon=ft.icons.ADD, icon_color=ft.colors.BLUE_200, on_click=go_add),
+                ft.IconButton(icon=ft.Icons.ADD, icon_color=ft.Colors.BLUE_200, on_click=go_add),
                 ft.Container(expand=True),
-                ft.IconButton(icon=ft.icons.SETTINGS, icon_color=ft.colors.BLUE_200, on_click=go_settings),
+                ft.IconButton(icon=ft.Icons.SETTINGS, icon_color=ft.Colors.BLUE_200, on_click=go_settings),
                 ft.Container(expand=True),
             ]
         ),
@@ -52,7 +52,7 @@ async def appbar(page: ft.Page) -> ft.CupertinoAppBar:
 
     appbar = ft.AppBar(
         leading= ft.PopupMenuButton(
-            icon=ft.icons.MENU,
+            icon=ft.Icons.MENU,
             items=[
                 ft.PopupMenuItem(
                     text="Генератор паролей",

@@ -10,36 +10,36 @@ async def add(page: ft.Page):
             self.all_bottons = ft.ResponsiveRow(controls=[
                 ft.FilledButton(
                 text='Добавить пароль',
-                icon=ft.icons.ADD,
-                icon_color=ft.colors.GREEN,
+                icon=ft.Icons.ADD,
+                icon_color=ft.Colors.GREEN,
                 on_click=self.choice_add_pass,
                 col=6),
                 
                 ft.FilledButton(
                 text='Удалить пароль',
-                icon=ft.icons.DELETE,
-                icon_color=ft.colors.RED,
+                icon=ft.Icons.DELETE,
+                icon_color=ft.Colors.RED,
                 on_click=self.choice_delete_pass,
                 col=6),
                 
                 ft.FilledButton(
                 text='Добавить категорию',
-                icon=ft.icons.ADD,
-                icon_color=ft.colors.YELLOW,
+                icon=ft.Icons.ADD,
+                icon_color=ft.Colors.YELLOW,
                 on_click=self.choice_add_category,
                 col=6),
 
                 ft.FilledButton(
                 text='Изменить пароль',
-                icon=ft.icons.EDIT,
-                icon_color=ft.colors.GREEN_200,
+                icon=ft.Icons.EDIT,
+                icon_color=ft.Colors.GREEN_200,
                 on_click=self.choice_edit_pass,
                 col=6),
 
                 ft.FilledButton(
                 text='Изменить категорию',
-                icon=ft.icons.EDIT,
-                icon_color=ft.colors.YELLOW_200,
+                icon=ft.Icons.EDIT,
+                icon_color=ft.Colors.YELLOW_200,
                 on_click=self.choice_edit_category,
                 col=6),
             

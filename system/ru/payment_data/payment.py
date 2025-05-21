@@ -5,16 +5,16 @@ class DataTable:
         self.table = ft.DataTable(
             vertical_lines=ft.border.BorderSide(1, "blue"),
             horizontal_lines=ft.border.BorderSide(1, "green"),
-            heading_row_color=ft.colors.BLACK12,
+            heading_row_color=ft.Colors.BLACK12,
             columns=[
                 ft.DataColumn(ft.Text("№")),
                 ft.DataColumn(ft.Text("Заголовок")),
                 ft.DataColumn(ft.Text("Дата создания")),
             ])
         self.all_battom = ft.Row(controls=[
-            ft.IconButton(icon=ft.icons.ARROW_CIRCLE_LEFT,),
-            ft.IconButton(icon=ft.icons.ARROW_CIRCLE_RIGHT, ),
-            ft.IconButton(icon=ft.icons.UPDATE, ),
+            ft.IconButton(icon=ft.Icons.ARROW_CIRCLE_LEFT,),
+            ft.IconButton(icon=ft.Icons.ARROW_CIRCLE_RIGHT, ),
+            ft.IconButton(icon=ft.Icons.UPDATE, ),
             ], alignment=ft.MainAxisAlignment.END)
 
 class TableListView:
@@ -35,7 +35,7 @@ async def payment(page: ft.Page):
 
     content = ft.Column(controls=[
         ft.Row(controls=[
-            ft.Icon(name=ft.icons.PAYMENT, size=30, disabled=True),
+            ft.Icon(name=ft.Icons.PAYMENT, size=30, disabled=True),
             ft.Text(value="Платежные данные",size=30, text_align=ft.TextAlign.CENTER),
         ], alignment=ft.MainAxisAlignment.CENTER),
 
