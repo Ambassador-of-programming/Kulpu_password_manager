@@ -39,7 +39,7 @@ async def appbar(page: ft.Page) -> ft.CupertinoAppBar:
         return
     
     async def go_slide_statistics(event):
-        return
+        return page.go('/statistik')
     
     async def theme_changed(event):
         page.theme_mode = (

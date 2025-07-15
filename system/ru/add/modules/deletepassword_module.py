@@ -1,6 +1,9 @@
 import flet as ft
 from config.database.db import Password_Database
+from config.database.crud import DatabaseManager
+
 from datetime import datetime
+
 
 class DeletePassword():
     async def init(self, page: ft.Page, column: ft.Column) -> None:
@@ -27,8 +30,10 @@ class DeletePassword():
     async def delete_save(self):
         async def save_click(event):
             if all([self.id.value]):
-                db = Password_Database()
-                await db.delete_id(id=int(self.id.value))
+                db = DatabaseManager()
+                db.delete_password_by_id(password_id=int(self.id.value))
+                # db = Password_Database()
+                # await db.delete_id(id=int(self.id.value))
             else:
                 print('нету значения')
 

@@ -6,8 +6,9 @@ name = "pypi"
 [packages]
 aiofiles = "*"
 aiosqlite = "*"
-pyperclip = "*"
 flet = "*"
+sqlalchemy = "*"
+alembic = "*"
 
 [dev-packages]
 

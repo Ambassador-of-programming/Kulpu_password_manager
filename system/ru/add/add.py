@@ -2,8 +2,8 @@ import flet as ft
 from system.ru.add.modules.addpass_module import AddPass
 from system.ru.add.modules.deletepassword_module import DeletePassword
 
+
 async def add(page: ft.Page):
-    
     class Button:
         def __init__(self) -> None:
             self.column = ft.Column(visible=False)
@@ -64,31 +64,34 @@ async def add(page: ft.Page):
                 self.column.update()
 
         async def choice_add_category(self, event):
-            if self.column.visible == False:
-                self.column.controls = await add_pass.group()
-                self.column.visible = True
-                self.column.update()
-            else:
-                self.column.visible = False
-                self.column.update()
+            pass
+            # if self.column.visible == False:
+            #     self.column.controls = await add_pass.group()
+            #     self.column.visible = True
+            #     self.column.update()
+            # else:
+            #     self.column.visible = False
+            #     self.column.update()
 
         async def choice_edit_pass(self, event):
-            if self.column.visible == False:
-                self.column.controls = await add_pass.group()
-                self.column.visible = True
-                self.column.update()
-            else:
-                self.column.visible = False
-                self.column.update()
+            pass
+            # if self.column.visible == False:
+            #     self.column.controls = await add_pass.group()
+            #     self.column.visible = True
+            #     self.column.update()
+            # else:
+            #     self.column.visible = False
+            #     self.column.update()
 
         async def choice_edit_category(self, event):
-            if self.column.visible == False:
-                self.column.controls = await add_pass.group()
-                self.column.visible = True
-                self.column.update()
-            else:
-                self.column.visible = False
-                self.column.update()
+            pass
+            # if self.column.visible == False:
+            #     self.column.controls = await add_pass.group()
+            #     self.column.visible = True
+            #     self.column.update()
+            # else:
+            #     self.column.visible = False
+            #     self.column.update()
     
     button = Button()
 

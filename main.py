@@ -12,7 +12,7 @@ async def main(page: ft.Page):
         from system.ru.navigation.FletRouter import Router
         from system.ru.navigation.bar import bottomappbar, appbar
 
-        page.title = f'Кулпу: менеджер паролей'
+        page.title = f'Kulpu: менеджер паролей'
         page.theme_mode = "dark"
         page.scroll = 'HIDDEN'
         page.padding = 10

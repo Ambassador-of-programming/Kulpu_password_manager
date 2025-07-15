@@ -1,5 +1,7 @@
 import flet as ft
 from config.database.db import Password_Database
+from config.database.crud import DatabaseManager
+
 from datetime import datetime
 
 class AddPass():
@@ -129,12 +131,21 @@ class AddPass():
     async def add_save(self):
         async def save_click(event):
             if all([self.title.value, self.pas.value]):
-                db = Password_Database()
-                await db.add_record(title=self.title.value.strip(), password=self.pas.value.strip(),
+                db = DatabaseManager()
+                db.add_password_record(
+                    title=self.title.value.strip(), password=self.pas.value.strip(),
                     login=self.login.value.strip(), url_site=self.url_site.value.strip(),
-                    email=self.email.value.strip(),
-                    notes=self.notes.value.strip(), key_words=self.key_words.value.strip(), 
-                    creation_date=datetime.now(), change_date=datetime.now())
+                    email=self.email.value.strip(), notes=self.notes.value.strip(), 
+                    key_words=self.key_words.value.strip(), 
+                    creation_date=datetime.now(), change_date=datetime.now()
+                    
+                )
+                # db = Password_Database()
+                # await db.add_record(title=self.title.value.strip(), password=self.pas.value.strip(),
+                #     login=self.login.value.strip(), url_site=self.url_site.value.strip(),
+                #     email=self.email.value.strip(),
+                #     notes=self.notes.value.strip(), key_words=self.key_words.value.strip(), 
+                #     creation_date=datetime.now(), change_date=datetime.now())
             else:
                 print('нету значения')
 

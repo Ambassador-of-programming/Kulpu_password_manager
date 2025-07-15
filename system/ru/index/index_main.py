@@ -207,9 +207,6 @@ async def index(page: ft.Page):
         # ]),
 
         datatable.all_battom,
-
-
-
     ])
 
     return content
