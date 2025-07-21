@@ -3,7 +3,7 @@ from typing import Union
 
 class DatabaseManager:
     def __init__(self):
-        self.db_name = 'config/database/passwords.db'
+        self.db_name = 'src/config/database/passwords.db'
 
     async def connect(self):
         self.connection = await aiosqlite.connect(self.db_name)
